@@ -1,23 +1,19 @@
-<!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <block wx:if="{{canIUseOpenData}}">
-      <view class="userinfo-avatar" bindtap="bindViewTap">
-        <open-data type="userAvatarUrl"></open-data>
-      </view>
-      <open-data type="userNickName"></open-data>
-    </block>
-    <block wx:elif="{{!hasUserInfo}}">
-      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-      <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-      <view wx:else> 请使用1.4.4及以上版本基础库 </view>
-    </block>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+<!-- 
+  view->相当于是html中的div,他是块级元素
+
+  image->相当于是html中的img,他是行内块元素
+  
+  text->相当于是html中的span,他是行内元素
+    他是整个小程序组件中的弟中弟,最弟弟的一个
+    注意:
+      1.该节点中,只能放置文本,嵌套其他组件会出现问题
+      2.该节点认得回车,回车具有换行效果
+
+  button->相当于是html中的button,他是一个行内块元素
+ -->
+
+<view class="indexContainer">
+  <image class="avatarImg" src="/static/images/dazuo.jpeg"></image>
+  <text class="username">你好,七月</text>
+  <button class="welcome">欢迎来到尚硅谷</button>
 </view>
