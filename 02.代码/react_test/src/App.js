@@ -1,25 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
+import React,{Component} from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component{
+
+  state={
+    msg:"我是初始化数据"
+  }
+
+  clickHandler=()=>{
+    console.log(1,this.state.msg)
+    this.setState({
+      msg:"我是修改之后的结果"
+    })
+    console.log(2,this.state.msg)
+  }
+
+  render(){
+    return(
+      <h1 onClick={this.clickHandler}>msg:{this.state.msg}</h1>
+    )
+  }
 }
 
 export default App;
