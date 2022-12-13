@@ -1,4 +1,5 @@
 // pages/index/index.js
+const citySelector = requirePlugin('citySelector');
 Page({
 
   /**
@@ -18,11 +19,12 @@ Page({
   */
   data: {
     msg: "我是初始化数据",
-    userInfo:{}
+    userInfo: {},
+    city:""
   },
 
-  handler(data){
-    console.log('handler',data)
+  handler(data) {
+    console.log('handler', data)
   },
 
   getUserProfile() {
@@ -31,16 +33,16 @@ Page({
 
     wx.getUserProfile({
       desc: "用于测试获取个人信息",
-      success:(data)=>{
+      success: (data) => {
         /*
           一个框架想给开发者传递数据,一般就两种手段:
             1.通过this对象
             2.通过形参传递
         */
-      //  该回调函数的形参中,会传入用户的个人信息
+        //  该回调函数的形参中,会传入用户的个人信息
         // console.log('data', data)
         this.setData({
-          userInfo:data.userInfo
+          userInfo: data.userInfo
         })
       }
     })
@@ -60,9 +62,17 @@ Page({
     // })
 
 
-    wx.redirectTo({
-      // url:"../log/log"
-      url: "/pages/log/log"
+    // wx.redirectTo({
+    //   // url:"../log/log"
+    //   url: "/pages/log/log"
+    // })
+
+    const key = 'BZ7BZ-QQWCU-DHWV2-BFJJG-B2JZF-KSBT3'; // 使用在腾讯位置服务申请的key
+    const referer = '七月入栈'; // 调用插件的app的名称
+    const hotCitys = '北京,上海,成都,武汉,西安,深圳'; // 用户自定义的的热门城市
+
+    wx.navigateTo({
+      url: `plugin://citySelector/index?key=${key}&referer=${referer}&hotCitys=${hotCitys}`,
     })
   },
 
@@ -109,6 +119,15 @@ Page({
    */
   onShow: function () {
     // console.log('----------onShow-----------')
+    const selectedCity = citySelector.getCity();
+
+    // console.log('selectedCity',selectedCity)
+    if(!selectedCity)return ;
+    
+    const fullname = selectedCity.fullname;
+    this.setData({
+      city:fullname
+    })
   },
 
   /**
