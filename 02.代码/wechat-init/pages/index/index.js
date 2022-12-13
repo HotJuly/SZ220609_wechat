@@ -17,33 +17,60 @@ Page({
         Map->对象
   */
   data: {
-    msg:"我是初始化数据"
+    msg: "我是初始化数据",
+    userInfo:{}
   },
-  changeMsg(){
+
+  handler(data){
+    console.log('handler',data)
+  },
+
+  getUserProfile() {
+    // 小程序中,事件的回调函数或者生命周期钩子函数中,this都是当前页面的实例对象
+    // console.log('getUserProfile')
+
+    wx.getUserProfile({
+      desc: "用于测试获取个人信息",
+      success:(data)=>{
+        /*
+          一个框架想给开发者传递数据,一般就两种手段:
+            1.通过this对象
+            2.通过形参传递
+        */
+      //  该回调函数的形参中,会传入用户的个人信息
+        // console.log('data', data)
+        this.setData({
+          userInfo:data.userInfo
+        })
+      }
+    })
+
+  },
+  changeMsg() {
     this.setData({
-      msg:"我是修改之后的数据"
+      msg: "我是修改之后的数据"
     })
   },
 
-  toLog(){
+  toLog() {
     // console.log('toLog')
     // wx.navigateTo({
     //   // url:"../log/log"
     //   url:"/pages/log/log"
     // })
 
-    
+
     wx.redirectTo({
       // url:"../log/log"
-      url:"/pages/log/log"
+      url: "/pages/log/log"
     })
   },
 
-  handleClick(){
+  handleClick() {
     console.log('handleClick')
   },
 
-  handleParent(){
+  handleParent() {
     console.log('handleParent')
   },
 
@@ -57,7 +84,7 @@ Page({
     // setTimeout(()=>{
     // },2000)
 
-    
+
     // console.log(1,this.data.msg)
 
     // this.setData({
@@ -66,21 +93,22 @@ Page({
 
     // console.log(2,this.data.msg)
 
-    console.log('----------onLoad-----------')
+    // console.log('----------onLoad-----------')
+
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    console.log('----------onReady-----------')
+    // console.log('----------onReady-----------')
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log('----------onShow-----------')
+    // console.log('----------onShow-----------')
   },
 
   /**

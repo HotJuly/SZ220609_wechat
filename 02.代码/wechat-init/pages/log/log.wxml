@@ -1,2 +1,6 @@
 <!--pages/log/log.wxml-->
-<text>pages/log/log.wxml</text>
+<!-- <text>pages/log/log.wxml</text> -->
+<view>
+  <button open-type="chooseAvatar"  bindchooseavatar="handler1">获取头像</button>
+  <input type="nickname" />
+</view>

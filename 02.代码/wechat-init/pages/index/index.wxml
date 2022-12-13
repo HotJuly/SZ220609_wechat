@@ -13,9 +13,21 @@
  -->
 
 <view class="indexContainer">
-  <image class="avatarImg" src="/static/images/dazuo.jpeg"></image>
+  <image 
+  wx:if="{{userInfo.avatarUrl}}"
+  class="avatarImg" 
+  src="{{userInfo.avatarUrl}}"
+  ></image>
+
+  <button
+  wx:else
+  class="avatarImg" 
+  bindtap="getUserProfile"
+  >获取用户头像</button>
   <text class="username" bindtap="changeMsg">你好,{{msg}}</text>
   <button class="welcome" bindtap="toLog">欢迎来到尚硅谷</button>
+
+  <button open-type="getPhoneNumber"  bindgetphonenumber="handler">获取用户手机号</button>
 
   <!-- --------------------------------- -->
   <!-- <view bindtap="handleParent">
