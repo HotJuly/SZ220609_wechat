@@ -15,5 +15,21 @@
 <view class="indexContainer">
   <image class="avatarImg" src="/static/images/dazuo.jpeg"></image>
   <text class="username">你好,{{msg}}</text>
-  <button class="welcome">欢迎来到尚硅谷</button>
+  <!-- <button class="welcome" @click="handleClick">欢迎来到尚硅谷</button> -->
+  <!-- <view bindtap="handleParent">
+    <button class="welcome" catchtap="handleClick">欢迎来到尚硅谷</button>
+  </view> -->
+
+  <!-- <view capture-catch:tap="handleParent">
+    <button class="welcome" capture-bind:tap="handleClick">欢迎来到尚硅谷</button>
+  </view> -->
+
+  <!-- <view bind:tap="handleParent">
+    <button class="welcome" capture-catch:tap="handleClick">欢迎来到尚硅谷</button>
+  </view> -->
+
+  <view capture-catch:tap="handleParent">
+    <button class="welcome" bind:tap="handleClick">欢迎来到尚硅谷</button>
+  </view>
+
 </view>
