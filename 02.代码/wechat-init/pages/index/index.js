@@ -19,6 +19,25 @@ Page({
   data: {
     msg:"我是初始化数据"
   },
+  changeMsg(){
+    this.setData({
+      msg:"我是修改之后的数据"
+    })
+  },
+
+  toLog(){
+    // console.log('toLog')
+    // wx.navigateTo({
+    //   // url:"../log/log"
+    //   url:"/pages/log/log"
+    // })
+
+    
+    wx.redirectTo({
+      // url:"../log/log"
+      url:"/pages/log/log"
+    })
+  },
 
   handleClick(){
     console.log('handleClick')
