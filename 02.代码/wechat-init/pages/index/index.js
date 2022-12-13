@@ -65,34 +65,36 @@ Page({
     // })
 
     // console.log(2,this.data.msg)
+
+    console.log('----------onLoad-----------')
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    console.log('----------onReady-----------')
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    console.log('----------onShow-----------')
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    console.log('----------onHide-----------')
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    console.log('----------onUnload-----------')
   },
 
   /**

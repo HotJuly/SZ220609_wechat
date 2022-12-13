@@ -17,7 +17,6 @@
   <text class="username" bindtap="changeMsg">你好,{{msg}}</text>
   <button class="welcome" bindtap="toLog">欢迎来到尚硅谷</button>
 
-
   <!-- --------------------------------- -->
   <!-- <view bindtap="handleParent">
     <button class="welcome" catchtap="handleClick">欢迎来到尚硅谷</button>
