@@ -1,32 +1,104 @@
 /* pages/index/index.wxss */
-.indexContainer .bannerSwiper .bannerItem .bannerImg{
+.indexContainer .bannerSwiper .bannerItem .bannerImg {
   width: 100%;
-  height:100%
+  height: 100%
 }
 
-.indexContainer .nav{
-  display:flex;
+.indexContainer .nav {
+  display: flex;
 }
 
-.indexContainer .nav .navItem{
-  display:flex;
+.indexContainer .nav .navItem {
+  display: flex;
   flex-direction: column;
   align-items: center;
   width: 20%;
   text-align: center;
 }
 
-.indexContainer .nav .navItem .iconfont{
-  font-size:50rpx;
-  color:white;
-  width:100rpx;
-  height:100rpx;
+.indexContainer .nav .navItem .iconfont {
+  font-size: 50rpx;
+  color: white;
+  width: 100rpx;
+  height: 100rpx;
   background-color: red;
-  line-height:100rpx;
+  line-height: 100rpx;
   border-radius: 50%;
-  margin:20rpx 0;
+  margin: 20rpx 0;
 }
 
-.indexContainer .nav .navItem .navTitle{
-  font-size:26rpx;
+.indexContainer .nav .navItem .navTitle {
+  font-size: 26rpx;
 }
+
+
+/* 推荐歌曲区域样式开始 */
+.indexContainer .recommendContainer {
+  margin: 0 20rpx;
+}
+
+.indexContainer .recommendContainer .recommendScroll {
+  display: flex;
+}
+
+.indexContainer .recommendContainer .recommendScroll .recommendItem {
+  width: 200rpx;
+  margin-right: 20rpx;
+}
+
+.indexContainer .recommendContainer .recommendScroll .recommendItem .recommendImg {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 20rpx;
+}
+
+.indexContainer .recommendContainer .recommendScroll .recommendItem .recommendTitle {
+  /*
+    需求:单行文本溢出隐藏,并显示省略号
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+
+
+    需求:多行文本溢出隐藏,并显示省略号
+    需要知道几行文本之后,要隐藏
+
+    1.开启webkit专用的盒模型
+    display:-webkit-box;
+
+    2.告知当前盒模型,超过几行之后需要溢出隐藏
+    -webkit-line-clamp:2;
+
+    3.告知当前盒模型,当前文本的排列方向是垂直排列
+    -webkit-box-orient:vertical;
+
+    4.告知当前盒模型,超出的内容需要隐藏
+    overflow:hidden;
+  */
+  width: 100%;
+  height: 80rpx;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.header .title {
+  font-size: 28rpx;
+}
+
+.header .moreContent .moreTitle {
+  font-size: 30rpx;
+  float: left;
+}
+
+.header .moreContent .more {
+  font-size: 24rpx;
+  float: right;
+  border: 1rpx solid;
+  padding: 10rpx 20rpx;
+  border-radius: 15rpx;
+}
+
+
+/* 推荐歌曲区域样式结束 */

@@ -5,7 +5,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    banners:[]
+    // 用于存储当前页面的轮播图数据的
+    banners:[],
+
+    // 用于存储当前页面的推荐歌曲数据
+    recommendList:[]
   },
 
   /**
@@ -49,6 +53,16 @@ Page({
         // console.log('/banner',res)
         this.setData({
           banners:res.data.banners
+        })
+      }
+    })
+
+    wx.request({
+      url:"http://localhost:3000/personalized",
+      success:(res)=>{
+        // console.log('/personalized',res)
+        this.setData({
+          recommendList:res.data.result
         })
       }
     })
