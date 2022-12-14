@@ -10,7 +10,10 @@ Page({
     banners: [],
 
     // 用于存储当前页面的推荐歌曲数据
-    recommendList: []
+    recommendList: [],
+
+    // 用于存储当前页面的排行榜数据
+    topList:[]
   },
 
   /**
@@ -80,6 +83,42 @@ Page({
     })
     // console.log(2,data)
 
+
+    // 这个数组就是用来存放,等下请求回来的多个榜单的数据的
+    const topList = [];
+    const ids = [1,4,8,16,22];
+    let index = 0;
+
+    while(index<ids.length){
+      // while循环的条件,如果是false,就不执行内部代码
+      let res = await myAxios('/top/list',{idx:ids[index++]});
+      // console.log('res',res)
+      const {id,name,tracks} = res.playlist;
+      /*
+        splice(开始下标,删除几个,新增数据内容)
+          会修改原数组
+        slice(开始下标,结束下标)
+          注意:结束下标的内容是不会被切割进去的
+          不会修改原数组
+      
+      */
+      const obj = {
+        id,
+        name,
+        list:tracks.slice(0,3).map((item)=>{
+          return {
+            imgUrl:item.al.picUrl,
+            name:item.name,
+            id:item.id
+          }
+        })
+      };
+      topList.push(obj);
+  
+      this.setData({
+        topList
+      })
+    }
   },
 
   /**
