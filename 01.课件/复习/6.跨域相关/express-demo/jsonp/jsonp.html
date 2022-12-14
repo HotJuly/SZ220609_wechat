@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">发送请求</button>
+    <script>
+        // 用于存储数据
+        var data;
+
+        // 准备一个接收数据的函数
+        function getData(data){
+            console.log(data)
+            window.data=data
+        }
+
+        btn.onclick=function(){
+            let script = document.createElement('script');
+            // script标签的特点
+            // 1.只要具有src属性,就会立即发送请求(是自动的)
+            // 2.请求回来的内容会自动作为js代码执行
+            script.src="http://localhost:5000/jsonp?callback=getData"
+            document.body.appendChild(script);
+        }
+    </script>
+</body>
+</html>

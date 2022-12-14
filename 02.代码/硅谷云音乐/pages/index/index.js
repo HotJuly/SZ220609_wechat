@@ -1,4 +1,5 @@
 // pages/index/index.js
+import myAxios from '../../utils/myAxios';
 Page({
 
   /**
@@ -6,16 +7,16 @@ Page({
    */
   data: {
     // 用于存储当前页面的轮播图数据的
-    banners:[],
+    banners: [],
 
     // 用于存储当前页面的推荐歌曲数据
-    recommendList:[]
+    recommendList: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: async function (options) {
     /*
       发送请求的三个问题:
         1.在哪发
@@ -44,28 +45,40 @@ Page({
     
     */
     // console.log('window',window)
-    wx.request({
-      url:"http://localhost:3000/banner",
-      data:{
-        type:2
-      },
-      success:(res)=>{
-        // console.log('/banner',res)
-        this.setData({
-          banners:res.data.banners
-        })
-      }
+    // wx.request({
+    //   url:"http://localhost:3000/banner",
+    //   data:{
+    //     type:2
+    //   },
+    //   success:(res)=>{
+    //     // console.log('/banner',res)
+    //     this.setData({
+    //       banners:res.data.banners
+    //     })
+    //   }
+    // })
+
+    let result = await myAxios('/banner', {type: 2});
+    this.setData({
+      banners: result.banners
     })
 
-    wx.request({
-      url:"http://localhost:3000/personalized",
-      success:(res)=>{
-        // console.log('/personalized',res)
-        this.setData({
-          recommendList:res.data.result
-        })
-      }
+    // wx.request({
+    //   url:"http://localhost:3000/personalized",
+    //   success:(res)=>{
+    //     // console.log('/personalized',res)
+    //     this.setData({
+    //       recommendList:res.data.result
+    //     })
+    //   }
+    // })
+
+    // await右侧书写promise对象,那么await表达式的结果就是右侧promise对象的结果值
+    let data = await myAxios('/personalized');
+    this.setData({
+      recommendList: data.result
     })
+    // console.log(2,data)
 
   },
 
