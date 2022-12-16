@@ -47,6 +47,13 @@ Page({
     })
   },
 
+  // 用于监视用户点击头像区域,跳转到登录界面
+  toLogin(){
+    wx.navigateTo({
+      url:"/pages/login/login"
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
