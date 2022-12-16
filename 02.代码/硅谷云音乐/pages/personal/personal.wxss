@@ -195,3 +195,14 @@
   float: right;
 }
 
+.playScroll{
+  /* white-space: nowrap; */
+  display:flex;
+  height:150rpx;
+}
+
+.playScroll .playImg{
+  width:150rpx;
+  height:150rpx;
+  /* flex-shrink:0; */
+}

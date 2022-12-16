@@ -1,4 +1,5 @@
 // pages/personal/personal.js
+import myAxios from '../../utils/myAxios';
 Page({
 
   /**
@@ -13,7 +14,10 @@ Page({
     moveTransition: "",
 
     // 用于存储当前用户个人数据
-    userInfo:{}
+    userInfo:{},
+
+    // 用于存储当前账号本周播放歌曲记录
+    playList:[]
 
   },
 
@@ -85,7 +89,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow:async function () {
     // 因为个人中心只要显示之后,就没有被卸载过
     // 而我们每次进入个人中心页面,都要获取最新的个人信息,所以选择使用onShow
 
@@ -93,6 +97,23 @@ Page({
     this.setData({
       userInfo
     })
+
+    if(userInfo){
+      const result = await myAxios('/user/record',{uid:userInfo.userId})
+      // console.log('result',result)
+      const playList = result.weekData.map((item)=>{
+        return {
+          id:item.song.id,
+          picUrl:item.song.al.picUrl
+        }
+      });
+
+      this.setData({
+        playList
+      })
+    }
+
+
   },
 
   /**

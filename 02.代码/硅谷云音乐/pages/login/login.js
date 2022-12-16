@@ -38,7 +38,7 @@ Page({
   handleInput(event) {
     // console.log('handleInput',event)
     // 小程序向事件回调函数内部传参的手段,
-    // 是通过自定义事件配合event身上的dataset实现的
+    // 是通过自定义属性配合event身上的dataset实现的
 
     const type = event.target.dataset.type;
 

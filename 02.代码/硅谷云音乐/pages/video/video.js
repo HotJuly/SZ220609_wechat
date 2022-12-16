@@ -1,4 +1,5 @@
 // pages/video/video.js
+import myAxios from '../../utils/myAxios';
 Page({
 
   /**
@@ -6,6 +7,19 @@ Page({
    */
   data: {
 
+    // 用于存储当前页面的导航列表数据
+    navList:[],
+
+    // 用于记录用户点击了哪个选项
+    currentIndex:0
+  },
+
+  // 用于监视用户点击了哪个导航按钮
+  changeCurrent(event){
+    const currentIndex = event.target.dataset.index;
+    this.setData({
+      currentIndex
+    })
   },
 
   /**
@@ -25,8 +39,16 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow:async function () {
+    // tabBar页面具有一个特点,只要显示过一次之后,就不会卸载
+    // 所以tabBar页面经常使用onShow生命周期
 
+    const result = await myAxios('/video/group/list');
+    const navList = result.data.slice(0,13);
+
+    this.setData({
+      navList
+    })
   },
 
   /**
