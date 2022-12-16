@@ -5,7 +5,46 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 用于控制页面的上下移动距离
+    moveDistance: 0,
 
+    // 用于控制当前页面的过渡效果
+    // moveTransition:"transform 1s"
+    moveTransition: ""
+
+  },
+
+  // 用于监视用户手指按下效果
+  handleTouchStart(event) {
+    // console.log('handleTouchStart',event.touches[0].clientY)
+    this.startY = event.touches[0].clientY;
+
+    this.setData({
+      moveTransition: ""
+    })
+  },
+
+  // 用于监视用户手指移动效果
+  handleTouchMove(event) {
+    // console.log('handleTouchMove',event.touches[0].clientY)
+    const moveY = event.touches[0].clientY;
+    const moveDistance = moveY - this.startY;
+    // console.log('moveDistance',moveDistance)
+
+    // 如果当前用户移动距离大于80或者小于0,就不继续移动
+    if(moveDistance>80||moveDistance<0)return;
+
+    this.setData({
+      moveDistance
+    })
+  },
+
+  // 用于监视用户手指抬起操作
+  handleTouchEnd() {
+    this.setData({
+      moveDistance: 0,
+      moveTransition: "transform 1s"
+    })
   },
 
   /**

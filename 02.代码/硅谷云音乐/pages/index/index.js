@@ -13,7 +13,7 @@ Page({
     recommendList: [],
 
     // 用于存储当前页面的排行榜数据
-    topList:[]
+    topList: []
   },
 
   /**
@@ -61,7 +61,9 @@ Page({
     //   }
     // })
 
-    let result = await myAxios('/banner', {type: 2});
+    let result = await myAxios('/banner', {
+      type: 2
+    });
     this.setData({
       banners: result.banners
     })
@@ -86,38 +88,89 @@ Page({
 
     // 这个数组就是用来存放,等下请求回来的多个榜单的数据的
     const topList = [];
-    const ids = [1,4,8,16,22];
+    const ids = [1, 4, 8, 16, 22];
     let index = 0;
 
-    while(index<ids.length){
+    /*
+      Promise.all([多个promise对象])
+        该方法会返回一个新的promise对象,
+          如果内部的所有promise都成功,那么他返回的promise也是成功
+          如果内部的promise有一个以上失败,那么他返回的就是失败的promise
+        使用场景:
+          如果现在有一件事情,必须在多件事情成功之后才做,就可以使用这个
+    
+      await的使用场景
+        await会拦截后续代码的执行
+          所以一般只有在后续代码,必须在前面代码成功之后才做,才会使用await
+          如果前后代码没有什么必然联系,就不需要使用await
+    */
+    // while(index<ids.length){
+    //   // while循环的条件,如果是false,就不执行内部代码
+    //   let res = await myAxios('/top/list',{idx:ids[index++]});
+    //   // console.log('res',res)
+    //   const {id,name,tracks} = res.playlist;
+    //   /*
+    //     splice(开始下标,删除几个,新增数据内容)
+    //       会修改原数组
+    //     slice(开始下标,结束下标)
+    //       注意:结束下标的内容是不会被切割进去的
+    //       不会修改原数组
+
+    //   */
+    //   const obj = {
+    //     id,
+    //     name,
+    //     list:tracks.slice(0,3).map((item)=>{
+    //       return {
+    //         imgUrl:item.al.picUrl,
+    //         name:item.name,
+    //         id:item.id
+    //       }
+    //     })
+    //   };
+    //   topList.push(obj);
+
+    //   this.setData({
+    //     topList
+    //   })
+    // }
+
+
+    while (index < ids.length) {
       // while循环的条件,如果是false,就不执行内部代码
-      let res = await myAxios('/top/list',{idx:ids[index++]});
-      // console.log('res',res)
-      const {id,name,tracks} = res.playlist;
-      /*
-        splice(开始下标,删除几个,新增数据内容)
-          会修改原数组
-        slice(开始下标,结束下标)
-          注意:结束下标的内容是不会被切割进去的
-          不会修改原数组
-      
-      */
-      const obj = {
-        id,
-        name,
-        list:tracks.slice(0,3).map((item)=>{
-          return {
-            imgUrl:item.al.picUrl,
-            name:item.name,
-            id:item.id
-          }
-        })
-      };
-      topList.push(obj);
-  
-      this.setData({
-        topList
+
+      // .then的作用就是监视前面的promise的状态变化
+      // 如果前面的promise变为成功状态,就会执行.then中的第一个回调函数
+      // 失败则是第二个回调函数
+      // 回调函数的第一个形参,可以获取到被监视的promise的结果值
+      myAxios('/top/list', {
+        idx: ids[index++]
       })
+      .then((res) => {
+        const {
+          id,
+          name,
+          tracks
+        } = res.playlist;
+
+        const obj = {
+          id,
+          name,
+          list: tracks.slice(0, 3).map((item) => {
+            return {
+              imgUrl: item.al.picUrl,
+              name: item.name,
+              id: item.id
+            }
+          })
+        };
+        topList.push(obj);
+
+        this.setData({
+          topList
+        })
+      })
+
     }
   },
 
