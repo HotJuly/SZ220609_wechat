@@ -19,7 +19,18 @@ Page({
 
   // 用于监视用户手指按下效果
   handleTouchStart(event) {
-    // console.log('handleTouchStart',event.touches[0].clientY)
+    console.log('handleTouchStart',event)
+
+    /*
+      event.touches
+        内部会存放当前屏幕上,所有的手指信息
+
+      event.changedTouches
+        内部会存放当前屏幕上,正在移动的手指信息
+
+      由于模拟器上,只支持单指操作,所以在使用的时候,这两个数组没有区别
+    */
+
     this.startY = event.touches[0].clientY;
 
     this.setData({
