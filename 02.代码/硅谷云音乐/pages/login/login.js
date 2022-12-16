@@ -192,6 +192,9 @@ Page({
           wx.switchTab({
             url:"/pages/personal/personal"
           });
+
+          wx.setStorageSync("userInfo", result.userInfo);
+          // 错误:wx.setStorage("userInfo", result.userInfo);
       },
       400(){
           wx.showToast({

@@ -10,7 +10,10 @@ Page({
 
     // 用于控制当前页面的过渡效果
     // moveTransition:"transform 1s"
-    moveTransition: ""
+    moveTransition: "",
+
+    // 用于存储当前用户个人数据
+    userInfo:{}
 
   },
 
@@ -72,7 +75,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    // 因为个人中心只要显示之后,就没有被卸载过
+    // 而我们每次进入个人中心页面,都要获取最新的个人信息,所以选择使用onShow
 
+    const userInfo = wx.getStorageSync("userInfo");
+    this.setData({
+      userInfo
+    })
   },
 
   /**
