@@ -16,7 +16,19 @@ Page({
 
   // 用于监视用户点击了哪个导航按钮
   changeCurrent(event){
-    const currentIndex = event.target.dataset.index;
+    /*
+      target是用于找到当前事件的触发者用的
+        也就是当前事件最内层的子节点
+
+      currentTarget是用于找到当前事件的事件源的
+        也就是绑定了事件的那个元素
+
+      而当前我们的数据是存放在事件源对象身上,所以需要使用event.currentTarget才行
+    
+    */
+    // const currentIndex = event.target.dataset.index;
+    const currentIndex = event.currentTarget.dataset.index;
+    console.log('currentIndex',currentIndex)
     this.setData({
       currentIndex
     })
