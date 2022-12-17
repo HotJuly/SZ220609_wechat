@@ -15,7 +15,10 @@ Page({
     currentId:null,
 
     // 用于存储当前页面的视频列表数据
-    videoList:[]
+    videoList:[],
+
+    // 用于控制当前scroll-view区域刷新效果开启和关闭
+    isTrigger:false
   },
 
   // 该方法用于练习视频的播放暂停方法,不是当前项目中的功能
@@ -25,6 +28,47 @@ Page({
 
     // 2.使用上下文对象的方法,可以暂停某个视频的播放
     videoContext.pause();
+  },
+
+  // 用于监视用户下拉scroll-view区域操作
+  async handlePullDown(){
+    // console.log('handlePullDown')
+    await this.getVideoList();
+
+    this.setData({
+      isTrigger:false
+    })
+  },
+
+  // 专门用于请求当前导航列表的数据
+  async getNavList(){
+    const result = await myAxios('/video/group/list');
+    const navList = result.data.slice(0,13);
+
+    this.setData({
+      navList,
+      // 错误示范:currentId:this.data.navList[0].id
+      currentId:navList[0].id
+    })
+  },
+
+  // 专门用于请求对应的视频列表数据
+  async getVideoList(){
+    this.setData({
+      videoList:[]
+    });
+
+    // 只要这个函数中的代码,全部执行结束,那么当前返回的promise对象就会变为成功状态
+    // 如果promise对象变成成功状态,说明当前请求的最新数据已经回来了
+    const result2 = await myAxios('/video/group',{id:this.data.currentId});
+
+    this.setData({
+      videoList:result2.datas.map((item)=>{
+        return item.data;
+      })
+    })
+
+    // console.log(2)
   },
 
   // 用于监视页面上视频的播放事件
@@ -47,7 +91,7 @@ Page({
   },
 
   // 用于监视用户点击了哪个导航按钮
-  changeCurrent(event){
+  async changeCurrent(event){
     /*
       target是用于找到当前事件的触发者用的
         也就是当前事件最内层的子节点
@@ -64,7 +108,17 @@ Page({
     const currentId = event.currentTarget.dataset.id;
     this.setData({
       currentId
-    })
+    });
+
+    wx.showLoading({
+      title:"加载中..."
+    });
+    // console.log(1)
+
+    await this.getVideoList();
+
+    // console.log(3)
+    wx.hideLoading();
   },
 
   /**
@@ -88,24 +142,9 @@ Page({
     // tabBar页面具有一个特点,只要显示过一次之后,就不会卸载
     // 所以tabBar页面经常使用onShow生命周期
 
-    const result = await myAxios('/video/group/list');
-    const navList = result.data.slice(0,13);
+    await this.getNavList();
 
-    this.setData({
-      navList,
-      // 错误示范:currentId:this.data.navList[0].id
-      currentId:navList[0].id
-    })
-    // console.log(this.data.navList[0].id)
-
-    const result2 = await myAxios('/video/group',{id:this.data.currentId});
-    // console.log('result2',result2)
-
-    this.setData({
-      videoList:result2.datas.map((item)=>{
-        return item.data;
-      })
-    })
+    this.getVideoList();
   },
 
   /**
@@ -125,8 +164,12 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh:async function () {
+    // console.log('onPullDownRefresh')
+    
+    await this.getNavList();
 
+    this.getVideoList();
   },
 
   /**

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      async function fn() {
+        console.log(1);
+
+        new Promise((resolve) => {
+          console.log(2);
+          resolve();
+        });
+
+        await new Promise((resolve) => {
+            setTimeout(()=>{
+            console.log(3);
+            resolve();
+            })
+        })
+
+        setTimeout(() => {
+          console.log(4);
+        }, 0);
+
+        setTimeout(() => {
+          console.log(5);
+        }, 1000);
+
+        console.log(8)
+
+        return 123;
+      }
+
+      console.log(6);
+      const a = fn();
+      console.log(7,a);
+      /*
+            async和await
+                async中的代码会同步执行
+                await可以拦截后续代码执行,但是范围只在async函数中
+                async函数的返回值一定是一个promise对象
+                    如果函数中有写return,那么return的结果会成为这个promise的结果值
+                async函数中的所有代码执行完毕,那么他返回的promise对象就会变成成功状态
+        */
+    </script>
+  </body>
+</html>

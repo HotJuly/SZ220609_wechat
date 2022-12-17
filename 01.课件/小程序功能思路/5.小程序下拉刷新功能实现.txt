@@ -1,0 +1,30 @@
+小程序下拉操作触发方法:
+	1.下拉页面
+		流程:
+			1.需要给当前页面开启下拉动画,否则当前页面没办法下拉
+				所有页面都生效:在app.json->window属性->添加enablePullDownRefresh:true
+				只有video页面生效:在video.json->添加enablePullDownRefresh:true
+
+			2.通过Page的配置对象中,可以添加onPullDownRefresh事件监听,来监视用户下拉页面操作	
+
+	2.下拉scroll-view
+		流程:
+			1.需要给scroll-view区域开启下拉动画,否则无法下拉操作
+				给scroll-view组件,添加标签属性refresher-enabled即可
+
+			2.通过给scroll-view标签,绑定事件监听,事件名:refresherrefresh,来监视用户下拉scroll-view操作
+				在回调函数中,发送请求即可
+
+			BUG:当前数据已经请求结束了,但是scroll-view的下拉动画没有收回
+			解决方法:通过状态数据,控制标签属性refresher-triggered值的变化
+
+
+
+需求:当用户触发下拉操作的时候,请求最新的视频列表数据进行展示
+拆解:
+	1.当用户触发下拉操作的时候
+		绑定事件监听
+
+	2.请求最新的视频列表数据进行展示
+		其实就是把刚才封装的getVideoList方法,再调用一次即可
+		如果有最新数据,服务器会自动返回,方法中也会自动更新到data中进行展示
