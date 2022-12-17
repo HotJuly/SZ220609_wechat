@@ -195,6 +195,11 @@ Page({
 
           wx.setStorageSync("userInfo", result.userInfo);
           // 错误:wx.setStorage("userInfo", result.userInfo);
+
+          wx.setStorage({
+            key:"cookie",
+            data:"MUSIC_U=f9cd6ac08eab37cd411536682265682093ba5e48bf0b61cf2c6ae2299825abef2db2b90205957188fb4db8a1b6e485d3a210f989676f4c9a88d7a9980d9f344dfa3fd9b678600d111b93ac14e0ed86ab; Max-Age=1296000; Expires=Sun, 01 Jan 2023 00:54:20 GMT; Path=/; Domain=.music.163.com; HTTPOnly"
+          })
       },
       400(){
           wx.showToast({

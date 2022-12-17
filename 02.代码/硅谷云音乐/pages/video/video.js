@@ -11,7 +11,39 @@ Page({
     navList:[],
 
     // 用于记录用户点击了哪个选项
-    currentIndex:0
+    // currentIndex:0
+    currentId:null,
+
+    // 用于存储当前页面的视频列表数据
+    videoList:[]
+  },
+
+  // 该方法用于练习视频的播放暂停方法,不是当前项目中的功能
+  testApi(){
+    // 1.获取到对应video组件的上下文对象
+    const videoContext = wx.createVideoContext('37E7DDED8398443598CA8F2519042152');
+
+    // 2.使用上下文对象的方法,可以暂停某个视频的播放
+    videoContext.pause();
+  },
+
+  // 用于监视页面上视频的播放事件
+  handlePlay(event){
+    // console.log('handlePlay',event.currentTarget)
+
+    // 获取到触发当前事件的video组件的id属性
+    const vid = event.currentTarget.id;
+    
+    if(this.oldVid&&this.oldVid!==vid){
+
+      // 1.获取到对应video组件的上下文对象
+      const videoContext = wx.createVideoContext(this.oldVid);
+
+      // 2.使用上下文对象的方法,可以暂停某个视频的播放
+      videoContext.pause();
+    }
+
+    this.oldVid = vid;
   },
 
   // 用于监视用户点击了哪个导航按钮
@@ -27,10 +59,11 @@ Page({
     
     */
     // const currentIndex = event.target.dataset.index;
-    const currentIndex = event.currentTarget.dataset.index;
-    console.log('currentIndex',currentIndex)
+    // const currentIndex = event.currentTarget.dataset.index;
+
+    const currentId = event.currentTarget.dataset.id;
     this.setData({
-      currentIndex
+      currentId
     })
   },
 
@@ -59,7 +92,19 @@ Page({
     const navList = result.data.slice(0,13);
 
     this.setData({
-      navList
+      navList,
+      // 错误示范:currentId:this.data.navList[0].id
+      currentId:navList[0].id
+    })
+    // console.log(this.data.navList[0].id)
+
+    const result2 = await myAxios('/video/group',{id:this.data.currentId});
+    // console.log('result2',result2)
+
+    this.setData({
+      videoList:result2.datas.map((item)=>{
+        return item.data;
+      })
     })
   },
 

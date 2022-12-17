@@ -1,0 +1,45 @@
+问题:小程序不支持Cookie
+	无法自动存储Cookie
+	无法自动发送Cookie
+
+需求:实现以上两个功能
+	自动存储Cookie
+	拆解:
+		1.什么是自动?
+			手动->在页面上显示标签,让用户操作
+			自动->开发者通过js的方法,帮用户做些事情
+				我们帮用户做了,叫做自动
+
+		2.如何获取到Cookie?
+			只有登录接口才会返回用户的唯一标识
+			接口地址:https://music.163.com/weapi/login/cellphone
+			从他的响应头中,找到set-cookie,需要找的cookie是以"MUSIC_U"开头的
+
+			例如:MUSIC_U=f9cd6ac08eab37cd411536682265682093ba5e48bf0b61cf2c6ae2299825abef2db2b90205957188fb4db8a1b6e485d3a210f989676f4c9a88d7a9980d9f344dfa3fd9b678600d111b93ac14e0ed86ab; Max-Age=1296000; Expires=Sun, 01 Jan 2023 00:54:20 GMT; Path=/; Domain=.music.163.com; HTTPOnly
+
+		3.将得到的Cookie数据保存在哪里?
+			Cookie需要长久存储
+			可以将数据保存在Storage中
+			
+
+	自动发送Cookie
+	拆解:
+		1.什么是自动?
+			手动->在页面上显示标签,让用户操作
+			自动->开发者通过js的方法,帮用户做些事情
+				我们帮用户做了,叫做自动
+
+		2.如何获取到Cookie数据?
+			当前用户的唯一标识存储于Storage中
+			可以读取Storage获取到
+
+		3.如何将Cookie数据发送给服务器?
+			在请求头中,添加Cookie数据即可
+			注意:发送Cookie的属性名就是Cookie
+
+
+
+
+
+
+

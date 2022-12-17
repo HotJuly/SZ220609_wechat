@@ -27,6 +27,9 @@ export default function(url,data={},method="GET"){
       // data:data,
       data,
       method,
+      header:{
+        Cookie:wx.getStorageSync('cookie')
+      },
       success:(res)=>{
         // console.log('success',res)
         // result = res;
