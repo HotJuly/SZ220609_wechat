@@ -18,7 +18,10 @@ Page({
     videoList:[],
 
     // 用于控制当前scroll-view区域刷新效果开启和关闭
-    isTrigger:false
+    isTrigger:false,
+
+    // 用于记录当前用户点击的图片id
+    videoId:null
   },
 
   // 给当前页面对象身上,添加一个属性myAxios,属性的值是用于发送请求的函数
@@ -31,6 +34,24 @@ Page({
 
     // 2.使用上下文对象的方法,可以暂停某个视频的播放
     videoContext.pause();
+  },
+
+  // 用于监视用户点击图片功能,实现切换对应video组件效果
+  changeVideo(event){
+    // console.log('changeVideo');
+    // 获取到用户点击图片的id,其实也是video组件的id
+    const videoId = event.currentTarget.id;
+
+    this.setData({
+      videoId
+    },()=>{
+      // 此处就相当于Vue中的nextTick
+      // 这个回调函数,会在视图更新之后执行
+      // 1.创建上下文对象
+      // const videoContext = wx.createVideoContext(videoId);
+      // videoContext.play();
+    });
+
   },
 
   // 用于监视用户下拉scroll-view区域操作

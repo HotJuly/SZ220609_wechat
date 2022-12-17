@@ -16,15 +16,25 @@
   </scroll-view>
 
   <!-- videoList区域 -->
-  <scroll-view 
-  class="videoList" 
-  scroll-y
-  refresher-enabled
-  refresher-triggered="{{isTrigger}}"
-  bindrefresherrefresh="handlePullDown"
-  >
+  <scroll-view class="videoList" scroll-y refresher-enabled refresher-triggered="{{isTrigger}}" bindrefresherrefresh="handlePullDown">
     <view class="videoItem" wx:for="{{videoList}}" wx:key="vid">
-      <video id="{{item.vid}}" class="common" src="{{item.urlInfo.url}}" bindplay="handlePlay"></video>
+      <video 
+      wx:if="{{videoId===item.vid}}"
+      id="{{item.vid}}" 
+      class="common" 
+      src="{{item.urlInfo.url}}" 
+      bindplay="handlePlay"
+      autoplay
+      ></video>
+
+      <image 
+      wx:else
+      id="{{item.vid}}"
+      class="common" 
+      src="{{item.coverUrl}}"
+      bindtap="changeVideo"
+      ></image>
+
       <view class="content">{{item.title}}</view>
       <view class="footer">
         <image class="avatar" src="{{item.creator.avatarUrl}}"></image>
@@ -38,12 +48,7 @@
             <text class="iconfont icon-pinglun1"></text>
             <text class="count">{{item.commentCount}}</text>
           </text>
-          <button 
-          class="item btn" 
-          open-type="share" 
-          data-title="{{item.title}}"
-          data-imageUrl="{{item.coverUrl}}"
-          >
+          <button class="item btn" open-type="share" data-title="{{item.title}}" data-imageUrl="{{item.coverUrl}}">
             <text class="iconfont icon-gengduo"></text>
           </button>
         </view>
