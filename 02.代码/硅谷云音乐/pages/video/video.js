@@ -1,5 +1,6 @@
 // pages/video/video.js
 import myAxios from '../../utils/myAxios';
+import hasPermission from '../../utils/hasPermission';
 Page({
 
   /**
@@ -8,27 +9,27 @@ Page({
   data: {
 
     // 用于存储当前页面的导航列表数据
-    navList:[],
+    navList: [],
 
     // 用于记录用户点击了哪个选项
     // currentIndex:0
-    currentId:null,
+    currentId: null,
 
     // 用于存储当前页面的视频列表数据
-    videoList:[],
+    videoList: [],
 
     // 用于控制当前scroll-view区域刷新效果开启和关闭
-    isTrigger:false,
+    isTrigger: false,
 
     // 用于记录当前用户点击的图片id
-    videoId:null
+    videoId: null
   },
 
   // 给当前页面对象身上,添加一个属性myAxios,属性的值是用于发送请求的函数
   // $myAxios:myAxios,
 
   // 该方法用于练习视频的播放暂停方法,不是当前项目中的功能
-  testApi(){
+  testApi() {
     // 1.获取到对应video组件的上下文对象
     const videoContext = wx.createVideoContext('37E7DDED8398443598CA8F2519042152');
 
@@ -37,14 +38,14 @@ Page({
   },
 
   // 用于监视用户点击图片功能,实现切换对应video组件效果
-  changeVideo(event){
+  changeVideo(event) {
     // console.log('changeVideo');
     // 获取到用户点击图片的id,其实也是video组件的id
     const videoId = event.currentTarget.id;
 
     this.setData({
       videoId
-    },()=>{
+    }, () => {
       // 此处就相当于Vue中的nextTick
       // 这个回调函数,会在视图更新之后执行
       // 1.创建上下文对象
@@ -55,39 +56,41 @@ Page({
   },
 
   // 用于监视用户下拉scroll-view区域操作
-  async handlePullDown(){
+  async handlePullDown() {
     // console.log('handlePullDown')
     await this.getVideoList();
 
     this.setData({
-      isTrigger:false
+      isTrigger: false
     })
   },
 
   // 专门用于请求当前导航列表的数据
-  async getNavList(){
+  async getNavList() {
     const result = await myAxios('/video/group/list');
-    const navList = result.data.slice(0,13);
+    const navList = result.data.slice(0, 13);
 
     this.setData({
       navList,
       // 错误示范:currentId:this.data.navList[0].id
-      currentId:navList[0].id
+      currentId: navList[0].id
     })
   },
 
   // 专门用于请求对应的视频列表数据
-  async getVideoList(){
+  async getVideoList() {
     this.setData({
-      videoList:[]
+      videoList: []
     });
 
     // 只要这个函数中的代码,全部执行结束,那么当前返回的promise对象就会变为成功状态
     // 如果promise对象变成成功状态,说明当前请求的最新数据已经回来了
-    const result2 = await this.$myAxios('/video/group',{id:this.data.currentId});
+    const result2 = await this.$myAxios('/video/group', {
+      id: this.data.currentId
+    });
 
     this.setData({
-      videoList:result2.datas.map((item)=>{
+      videoList: result2.datas.map((item) => {
         return item.data;
       })
     })
@@ -96,13 +99,13 @@ Page({
   },
 
   // 用于监视页面上视频的播放事件
-  handlePlay(event){
+  handlePlay(event) {
     // console.log('handlePlay',event.currentTarget)
 
     // 获取到触发当前事件的video组件的id属性
     const vid = event.currentTarget.id;
-    
-    if(this.oldVid&&this.oldVid!==vid){
+
+    if (this.oldVid && this.oldVid !== vid) {
 
       // 1.获取到对应video组件的上下文对象
       const videoContext = wx.createVideoContext(this.oldVid);
@@ -115,7 +118,7 @@ Page({
   },
 
   // 用于监视用户点击了哪个导航按钮
-  async changeCurrent(event){
+  async changeCurrent(event) {
     /*
       target是用于找到当前事件的触发者用的
         也就是当前事件最内层的子节点
@@ -135,7 +138,7 @@ Page({
     });
 
     wx.showLoading({
-      title:"加载中..."
+      title: "加载中..."
     });
     // console.log(1)
 
@@ -162,9 +165,17 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow:async function () {
+  onShow: async function () {
+    console.log(2,this)
+    // 小程序调用onShow函数的时候,会将该函数的this改为当前页面实例对象
     // tabBar页面具有一个特点,只要显示过一次之后,就不会卸载
     // 所以tabBar页面经常使用onShow生命周期
+
+    /*
+      需求:当用户进入video页面的时候,如果用户没有登录,就提示用户
+    
+    */
+    // if(!hasPermission())return;
 
     await this.getNavList();
 
@@ -188,9 +199,9 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh:async function () {
+  onPullDownRefresh: async function () {
     // console.log('onPullDownRefresh')
-    
+
     await this.getNavList();
 
     this.getVideoList();
@@ -206,7 +217,10 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function ({from,target}) {
+  onShareAppMessage: function ({
+    from,
+    target
+  }) {
     /**
      * target是用于存放当前用户点击的button组件实例的
      *    如果是右上角转发,就没有这个属性
@@ -217,20 +231,23 @@ Page({
      */
     // console.log('onShareAppMessage',target)
 
-    const {title,imageurl} = target.dataset;
-    if(from==="button"){
+    const {
+      title,
+      imageurl
+    } = target.dataset;
+    if (from === "button") {
       // 能进入这里,说明用户是点击了button组件
       return {
         title,
-        imageUrl:imageurl,
-        path:"/pages/video/video"
+        imageUrl: imageurl,
+        path: "/pages/video/video"
       }
-    }else{
+    } else {
       // 能进入这里,说明用户是点击右上角转发按钮实现的
-      return{
-        title:"硅谷云音乐",
-        imageUrl:"/static/images/dazuo.jpeg",
-        path:"/pages/index/index"
+      return {
+        title: "硅谷云音乐",
+        imageUrl: "/static/images/dazuo.jpeg",
+        path: "/pages/index/index"
       }
     }
   }
