@@ -61,7 +61,7 @@ Page({
     //   }
     // })
 
-    let result = await myAxios('/banner', {
+    let result = await this.$myAxios('/banner', {
       type: 2
     });
     this.setData({

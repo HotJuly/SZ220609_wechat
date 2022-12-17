@@ -21,6 +21,9 @@ Page({
     isTrigger:false
   },
 
+  // 给当前页面对象身上,添加一个属性myAxios,属性的值是用于发送请求的函数
+  // $myAxios:myAxios,
+
   // 该方法用于练习视频的播放暂停方法,不是当前项目中的功能
   testApi(){
     // 1.获取到对应video组件的上下文对象
@@ -60,7 +63,7 @@ Page({
 
     // 只要这个函数中的代码,全部执行结束,那么当前返回的promise对象就会变为成功状态
     // 如果promise对象变成成功状态,说明当前请求的最新数据已经回来了
-    const result2 = await myAxios('/video/group',{id:this.data.currentId});
+    const result2 = await this.$myAxios('/video/group',{id:this.data.currentId});
 
     this.setData({
       videoList:result2.datas.map((item)=>{
@@ -182,7 +185,32 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function ({from,target}) {
+    /**
+     * target是用于存放当前用户点击的button组件实例的
+     *    如果是右上角转发,就没有这个属性
+     * 
+     * from是告知开发者,用户是通过哪个渠道转发的
+     * 
+     * 注意:自定义属性传参,名称必须是全小写,大写他不认得
+     */
+    // console.log('onShareAppMessage',target)
 
+    const {title,imageurl} = target.dataset;
+    if(from==="button"){
+      // 能进入这里,说明用户是点击了button组件
+      return {
+        title,
+        imageUrl:imageurl,
+        path:"/pages/video/video"
+      }
+    }else{
+      // 能进入这里,说明用户是点击右上角转发按钮实现的
+      return{
+        title:"硅谷云音乐",
+        imageUrl:"/static/images/dazuo.jpeg",
+        path:"/pages/index/index"
+      }
+    }
   }
 })
